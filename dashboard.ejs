@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QR Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome, <%= user.name %> 👋</h1>
+    <a href="/logout" class="btn logout">Logout</a>
+  </header>
+
+  <main>
+    <section class="qr-history">
+      <h2>Your QR History</h2>
+
+      <% if (qrs.length === 0) { %>
+        <p>No QR codes generated yet.</p>
+      <% } else { %>
+        <div class="qr-list">
+          <% qrs.forEach(qr => { %>
+            <div class="qr-item">
+              <p><strong>Data:</strong> <%= qr.content %></p>
+              <p><strong>Created:</strong> <%= new Date(qr.created_at).toLocaleString() %></p>
+              <img src="/generate?data=<%= encodeURIComponent(qr.content) %>" alt="QR Code" width="150">
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
+
+    <section class="qr-form">
+      <h2>Generate New QR</h2>
+      <form action="/generate" method="POST">
+        <input type="text" name="data" placeholder="Enter data..." required>
+        <button type="submit">Generate</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

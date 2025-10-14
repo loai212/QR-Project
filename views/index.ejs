@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QR Generator</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <main>
+<header class="main-header">
+  <h1>QR Code Generator</h1>
+
+  <% if (user) { %>
+    <div class="user-info">
+      <span>Welcome, <%= user.name %></span>
+      <a href="/dashboard" class="btn">Dashboard</a>
+      <a href="/logout" class="btn logout">Logout</a>
+    </div>
+  <% } else { %>
+    <div class="auth-links">
+      <a href="/login" class="btn">Login</a>
+      <a href="/register" class="btn">Register</a>
+      <a href="/auth/google" class="btn google-btn">
+  <img src="/images/g-logo.png" alt="Google"> Sign in with Google
+</a>
+  <% } %>
+</header>
+  
+    <!-- your form and QR list here -->
+  </main>
+</body>
+</html>
