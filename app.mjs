@@ -1,19 +1,19 @@
 (async () => {
-const dotenv = await import('dotenv');
-dotenv.config();
-  import express from 'express';
-  import path from 'path';
-  import { fileURLToPath } from 'url';
-  import ejs from 'ejs';
-  import bodyParser from 'body-parser';
-  import qr from 'qr-image';
-  import session from 'express-session';
-  import passport from 'passport';
-  import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-  import pkg from 'pg';
-  import bcrypt from 'bcrypt';
+  const dotenv = await import('dotenv');
+  dotenv.config();
 
+  const express = (await import('express')).default;
+  const path = await import('path');
+  const { fileURLToPath } = await import('url');
+  const ejs = await import('ejs');
+  const bodyParser = (await import('body-parser')).default;
+  const qr = await import('qr-image');
+  const session = (await import('express-session')).default;
+  const passport = await import('passport');
+  const { Strategy: GoogleStrategy } = await import('passport-google-oauth20');
+  const pkg = await import('pg');
   const connectPgSimple = (await import('connect-pg-simple')).default;
+  const bcrypt = await import('bcrypt');
 
   const app = express();
   const port = process.env.PORT || 3000;
