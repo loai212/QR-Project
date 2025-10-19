@@ -1,24 +1,24 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import ejs, { name } from 'ejs';
+import ejs from 'ejs';
 import bodyParser from 'body-parser';
 import qr from 'qr-image';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import pg from 'pg';
-import pgSession from 'connect-pg-simple';
+import connectPgSimple from 'connect-pg-simple';
 import bcrypt from 'bcrypt';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // PostgreSQL setup
-const { Pool } = require('pg');
-
+const { Pool } = pg;
 const pool = new Pool({
   host: process.env.PG_HOST,
   port: process.env.PG_PORT,
@@ -31,8 +31,9 @@ const pool = new Pool({
 });
 
 // Session setup
+const pgSession = connectPgSimple(session);
 app.use(session({
-  store: new (pgSession(session))({ pool }),
+  store: new pgSession({ pool }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -42,14 +43,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // View engine and static files
-
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 // Passport Google OAuth
 passport.use(new GoogleStrategy({
@@ -114,7 +112,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-
 app.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
@@ -122,6 +119,7 @@ app.get('/login', (req, res) => {
 app.get('/test', (req, res) => {
   res.send('✅ Test route is working');
 });
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -166,8 +164,4 @@ app.get('/logout', (req, res) => {
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-
 });
-
-
-
