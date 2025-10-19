@@ -31,7 +31,7 @@ const pool = new Pool({
 });
 
 // Session setup
-const pgSession = connectPgSimple.default(session);
+const pgSession = connectPgSimple(session);
 app.use(session({
   store: new pgSession({ pool }),
   secret: process.env.SESSION_SECRET || 'fallback-secret',
