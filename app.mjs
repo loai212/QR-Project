@@ -28,7 +28,7 @@
     ssl: { rejectUnauthorized: false }
   });
 
-  // ✅ Create tables if they don't exist
+  //  Create tables if they don't exist
   const ensureTablesExist = async () => {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -61,7 +61,7 @@
       CREATE INDEX IF NOT EXISTS IDX_session_expire ON session (expire);
     `);
 
-    console.log("✅ Tables checked/created");
+    console.log("Tables checked/created");
   };
 
   await ensureTablesExist();
@@ -86,7 +86,7 @@
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback',
+    callbackURL: 'https://lucid-enthusiasm-production.up.railway.app/auth/google/callback',
   }, async (accessToken, refreshToken, profile, done) => {
     const { id, displayName, emails } = profile;
     const email = emails[0].value;
@@ -146,7 +146,7 @@
   });
 
   app.get('/test', (req, res) => {
-    res.send('✅ Test route is working');
+    res.send('Test route is working');
   });
 
   app.post('/login', async (req, res) => {
