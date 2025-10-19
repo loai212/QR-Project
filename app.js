@@ -17,12 +17,17 @@ const app = express();
 const port = 3000;
 
 // PostgreSQL setup
-const pool = new pg.Pool({
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  host: process.env.PG_HOST,
+  port: process.env.PG_PORT,
   user: process.env.PG_USER,
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
-  port: parseInt(process.env.PG_PORT),
-  host: 'localhost',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Session setup
