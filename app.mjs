@@ -20,7 +20,7 @@
 
   const { Pool } = pkg;
   const pool = new Pool({
-    host: process.env.PGHOST,
+    host: process.env.PGHOST,       // ✅ Correct Railway variable
     port: process.env.PGPORT,
     user: process.env.PGUSER,
     password: process.env.PGPASSWORD,
