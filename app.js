@@ -10,7 +10,7 @@ import qr from 'qr-image';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import pg from 'pg';
+import pkg from 'pg';
 import connectPgSimple from 'connect-pg-simple';
 import bcrypt from 'bcrypt';
 
@@ -18,7 +18,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // PostgreSQL setup
-const { Pool } = pg;
+const { Pool } = pkg;
 const pool = new Pool({
   host: process.env.PG_HOST,
   port: process.env.PG_PORT,
@@ -31,10 +31,10 @@ const pool = new Pool({
 });
 
 // Session setup
-const pgSession = connectPgSimple(session);
+const pgSession = connectPgSimple.default(session);
 app.use(session({
   store: new pgSession({ pool }),
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'fallback-secret',
   resave: false,
   saveUninitialized: false,
 }));
