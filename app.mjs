@@ -9,7 +9,7 @@
   const bodyParser = (await import('body-parser')).default;
   const qr = await import('qr-image');
   const session = (await import('express-session')).default;
-  const passport = await import('passport');
+  const passport = (await import('passport')).default;
   const { Strategy: GoogleStrategy } = await import('passport-google-oauth20');
   const pkg = await import('pg');
   const connectPgSimple = (await import('connect-pg-simple')).default;
