@@ -20,7 +20,7 @@
 
   const { Pool } = pkg;
   const pool = new Pool({
-    host: process.env.PG_HOST,       // ✅ Correct Railway variable
+    host: process.env.PG_HOST,
     port: process.env.PG_PORT,
     user: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
@@ -47,6 +47,18 @@
         content TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS session (
+        sid varchar PRIMARY KEY,
+        sess json NOT NULL,
+        expire timestamp(6) NOT NULL
+      );
+    `);
+
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS IDX_session_expire ON session (expire);
     `);
 
     console.log("✅ Tables checked/created");
