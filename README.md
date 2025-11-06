@@ -2,6 +2,8 @@
 
 A full-stack web application that allows users to generate QR codes from URLs or text input. Built with Node.js and Express, the app features a responsive, user-friendly interface and secure authentication.
 
+live link (https://lucid-enthusiasm-production.up.railway.app/)
+
 ## 🔧 Technologies Used
 - Node.js
 - Express.js
